@@ -403,40 +403,35 @@
             transform: scale(1.1);
         }
 
-        .lastfm-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 59, 109, 0.3);
-        }
-
-        .stat {
+        .debug-toggle {
             text-align: center;
+            margin-top: 15px;
         }
 
-        .stat-value {
-            color: var(--main-color);
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .stat-label {
+        .debug-toggle-btn {
+            background: transparent;
+            border: 1px solid var(--secondary-color);
             color: var(--secondary-color);
+            padding: 5px 15px;
+            border-radius: 15px;
             font-size: 0.8rem;
-            margin-top: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .no-track {
-            text-align: center;
-            padding: 40px 20px;
+        .debug-toggle-btn:hover {
+            background: rgba(255, 123, 169, 0.2);
+        }
+
+        .debug-info {
+            background: rgba(255, 59, 109, 0.1);
+            border: 1px solid var(--main-color);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 0.8rem;
             color: var(--secondary-color);
-        }
-
-        .no-track i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: var(--main-color);
+            display: none;
         }
 
         .last-updated {
@@ -519,11 +514,6 @@
                 gap: 10px;
                 text-align: center;
             }
-
-            .lastfm-stats {
-                flex-direction: column;
-                gap: 15px;
-            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -545,6 +535,18 @@
             </div>
         </header>
 
+        <div class="buttons">
+            <a href="tg://resolve?domain=a9_fm" class="btn"><i class="fab fa-telegram"></i> Telegram</a>
+            <a href="https://ovk.to/a9fm" class="btn"><i class="fab fa-vk"></i> oVK</a>
+            <a href="https://discord.com/users/513694176613892097" class="btn"><i class="fab fa-discord"></i> Discord</a>
+            <a href="https://www.tiktok.com/@a9fm.official" class="btn"><i class="fab fa-tiktok"></i> TikTok</a>
+            <a href="https://github.com/a9-fm" class="btn"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://www.youtube.com/channel/UCl5P2stynkIvV8bsUdaRB6A" class="btn"><i class="fab fa-youtube"></i> YouTube</a>
+            <a href="https://last.fm/user/a9fmTop" class="btn"><i class="fab fa-lastfm"></i> Last.fm</a>
+            <a href="https://anixartapp.com/profile/1876789" class="btn"><i class="fas fa-film"></i> Anixart</a>
+            <a href="tg://resolve?domain=roblox_offline" class="btn"><i class="fab fa-telegram"></i> Roblox Offline</a>
+        </div>
+
         <!-- Last.fM Music Player -->
         <div class="music-player" id="music-player">
             <div class="player-header">
@@ -552,7 +554,7 @@
                     <i class="fab fa-lastfm"></i>
                     Сейчас слушаю
                 </div>
-                <div class="player-status" id="player-status">🟢 ONLINE</div>
+                <div class="player-status" id="player-status">🔍 ПРОВЕРЯЕМ...</div>
             </div>
 
             <div id="track-container">
@@ -588,22 +590,19 @@
                             <i class="fas fa-redo"></i>
                         </div>
                     </div>
-
-                    <div class="lastfm-stats">
-                        <div class="stat">
-                            <div class="stat-value" id="play-count">0</div>
-                            <div class="stat-label">ПРОСЛУШИВАНИЙ</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value" id="track-loved">0</div>
-                            <div class="stat-label">ЛАЙКОВ</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value" id="listeners">0</div>
-                            <div class="stat-label">СЛУШАТЕЛЕЙ</div>
-                        </div>
-                    </div>
                 </div>
+            </div>
+
+            <!-- Debug toggle and info -->
+            <div class="debug-toggle">
+                <button class="debug-toggle-btn" onclick="toggleDebug()">
+                    <i class="fas fa-bug"></i> Отладка
+                </button>
+            </div>
+
+            <div class="debug-info" id="debug-info">
+                <strong>Отладка:</strong>
+                <div id="debug-content"></div>
             </div>
 
             <div class="last-updated" id="last-updated">
@@ -611,18 +610,7 @@
             </div>
         </div>
 
-        <div class="buttons">
-            <a href="tg://resolve?domain=a9_fm" class="btn"><i class="fab fa-telegram"></i> Telegram</a>
-            <a href="https://ovk.to/a9fm" class="btn"><i class="fab fa-vk"></i> oVK</a>
-            <a href="https://discord.com/users/513694176613892097" class="btn"><i class="fab fa-discord"></i> Discord</a>
-            <a href="https://www.tiktok.com/@a9fm.official" class="btn"><i class="fab fa-tiktok"></i> TikTok</a>
-            <a href="https://github.com/a9-fm" class="btn"><i class="fab fa-github"></i> GitHub</a>
-            <a href="https://www.youtube.com/channel/UCl5P2stynkIvV8bsUdaRB6A" class="btn"><i class="fab fa-youtube"></i> YouTube</a>
-            <a href="https://last.fm/user/a9fmTop" class="btn"><i class="fab fa-lastfm"></i> Last.fm</a>
-            <a href="https://anixartapp.com/profile/1876789" class="btn"><i class="fas fa-film"></i> Anixart</a>
-            <a href="tg://resolve?domain=roblox_offline" class="btn"><i class="fab fa-telegram"></i> Roblox Offline</a>
-        </div>
-
+        <!-- Остальной контент сайта -->
         <div class="section">
             <h2>> Обо мне <</h2>
             <p>Школьник, скрипт-кидди, манякодер. </p>
@@ -691,7 +679,6 @@
             </div>
 
             <div class="project">
-                <h3></h3>
                 <a href="./roblox_offline/index.html"><h3>Roblox Offline</h3></a>
                 <p>Антискам движение в сфере Roblox</p>
                 <div class="tags">
@@ -709,12 +696,10 @@
     </footer>
 
     <script>
-        // Last.fM Configuration
         const LASTFM_API_KEY = '460cda35be2fbf4f28e8ea7a38580730';
         const LASTFM_USERNAME = 'a9fmTop';
         let isPlaying = false;
 
-        // Initialize visualizer bars
         function initVisualizer() {
             const visualizer = document.getElementById('visualizer-bars');
             visualizer.innerHTML = '';
@@ -726,7 +711,6 @@
             }
         }
 
-        // Animate visualizer
         function animateVisualizer() {
             const bars = document.querySelectorAll('.bar');
             bars.forEach(bar => {
@@ -736,29 +720,87 @@
             });
         }
 
-        // Get current track from Last.fM
         async function getCurrentTrack() {
             try {
-                const response = await fetch(
-                    `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1`
-                );
-                const data = await response.json();
+                // api
+                const url = `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1`;
                 
-                if (data.recenttracks && data.recenttracks.track.length > 0) {
-                    const track = data.recenttracks.track[0];
-                    const isNowPlaying = track['@attr'] && track['@attr']['nowplaying'] === 'true';
+                // cors
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                
+                // alt proxy
+                const corsProxy = `https://cors-anywhere.herokuapp.com/${url}`;
+                
+                debugLog(`Пытаюсь получить данные...`);
+                
+                // try
+                let response = await fetchWithTimeout(url, 5000).catch(() => null);
+                
+                if (!response || !response.ok) {
+                    debugLog(`Пробую CORS proxy...`);
+                    response = await fetchWithTimeout(proxyUrl, 5000).catch(() => null);
+                }
+                
+                if (!response || !response.ok) {
+                    debugLog(`Пробую альтернативу...`);
+                    response = await fetchWithTimeout(corsProxy, 5000).catch(() => null);
+                }
+                
+                if (response && response.ok) {
+                    const data = await response.json();
+                    debugLog(`Данные получены успешно!`);
                     
-                    updatePlayer(track, isNowPlaying);
-                    return true;
+                    if (data.recenttracks && data.recenttracks.track.length > 0) {
+                        const track = data.recenttracks.track[0];
+                        const isNowPlaying = track['@attr'] && track['@attr']['nowplaying'] === 'true';
+                        
+                        updatePlayer(track, isNowPlaying);
+                        return true;
+                    } else {
+                        debugLog(`Нет данных о треках`);
+                        showNoTracks();
+                    }
+                } else {
+                    throw new Error('Все методы запроса не удались');
                 }
             } catch (error) {
                 console.error('Error fetching Last.fM data:', error);
+                debugLog(`Ошибка: ${error.message}`);
                 showError();
             }
             return false;
         }
 
-        // Update player with track info
+        // Fetch with timeout
+        function fetchWithTimeout(url, timeout = 5000) {
+            return Promise.race([
+                fetch(url),
+                new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Timeout')), timeout)
+                )
+            ]);
+        }
+
+        // Debug logging
+        function debugLog(message) {
+            console.log(`[Last.fM Debug] ${message}`);
+            const debugContent = document.getElementById('debug-content');
+            
+            if (debugContent) {
+                debugContent.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
+            }
+        }
+
+        // Toggle debug info
+        function toggleDebug() {
+            const debugInfo = document.getElementById('debug-info');
+            if (debugInfo.style.display === 'none' || !debugInfo.style.display) {
+                debugInfo.style.display = 'block';
+            } else {
+                debugInfo.style.display = 'none';
+            }
+        }
+
         function updatePlayer(track, isNowPlaying) {
             const noTrack = document.getElementById('no-track');
             const trackContent = document.getElementById('track-content');
@@ -767,12 +809,10 @@
             noTrack.style.display = 'none';
             trackContent.style.display = 'block';
             
-            // Update track info
             document.getElementById('track-name').textContent = track.name || 'Неизвестный трек';
             document.getElementById('artist-name').textContent = track.artist['#text'] || 'Неизвестный исполнитель';
             document.getElementById('album-name').textContent = track.album['#text'] || 'Неизвестный альбом';
             
-            // Update album art
             const albumArt = document.getElementById('album-art');
             if (track.image && track.image[2] && track.image[2]['#text']) {
                 albumArt.innerHTML = `<img src="${track.image[2]['#text']}" alt="Album Art" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-music\"></i>'">`;
@@ -780,7 +820,6 @@
                 albumArt.innerHTML = '<i class="fas fa-music"></i>';
             }
             
-            // Update status
             if (isNowPlaying) {
                 status.textContent = '🎵 СЕЙЧАС ИГРАЕТ';
                 status.style.background = 'rgba(255, 59, 109, 0.3)';
@@ -795,18 +834,31 @@
                 stopVisualizer();
             }
             
-            // Update stats (mock data for now)
-            document.getElementById('play-count').textContent = Math.floor(Math.random() * 1000);
-            document.getElementById('track-loved').textContent = Math.floor(Math.random() * 100);
-            document.getElementById('listeners').textContent = Math.floor(Math.random() * 5000);
-            
             updateLastUpdated();
         }
 
-        // Show error state
+        function showNoTracks() {
+            const noTrack = document.getElementById('no-track');
+            const trackContent = document.getElementById('track-content');
+            const status = document.getElementById('player-status');
+            
+            noTrack.style.display = 'block';
+            trackContent.style.display = 'none';
+            
+            noTrack.innerHTML = `
+                <i class="fas fa-info-circle"></i>
+                <p>Нет активных треков</p>
+                <p style="font-size: 0.8rem; margin-top: 10px;">Начните слушать музыку в Last.fM</p>
+            `;
+            
+            status.textContent = '💤 НЕТ ТРЕКОВ';
+            status.style.background = 'rgba(128, 128, 128, 0.3)';
+        }
+
         function showError() {
             const noTrack = document.getElementById('no-track');
             const trackContent = document.getElementById('track-content');
+            const status = document.getElementById('player-status');
             
             noTrack.style.display = 'block';
             trackContent.style.display = 'none';
@@ -816,9 +868,11 @@
                 <p>Не удалось загрузить данные Last.fM</p>
                 <p style="font-size: 0.8rem; margin-top: 10px;">Проверьте подключение к интернету</p>
             `;
+            
+            status.textContent = '❌ ОШИБКА';
+            status.style.background = 'rgba(255, 0, 0, 0.3)';
         }
 
-        // Update last updated time
         function updateLastUpdated() {
             const now = new Date();
             const timeString = now.toLocaleTimeString('ru-RU', { 
@@ -829,7 +883,6 @@
             document.getElementById('last-updated').textContent = `Обновлено: ${timeString}`;
         }
 
-        // Visualizer control
         let visualizerInterval;
         function startVisualizer() {
             stopVisualizer();
@@ -844,7 +897,6 @@
             }
         }
 
-        // Player controls
         function openLastFm() {
             window.open('https://last.fm/user/a9fmTop', '_blank');
         }
@@ -874,7 +926,6 @@
         // Auto-refresh every 30 seconds
         setInterval(getCurrentTrack, 30000);
 
-        // Initialize
         window.addEventListener('load', function() {
             setTimeout(function() {
                 document.querySelector('.loader').style.opacity = '0';
@@ -887,7 +938,6 @@
             getCurrentTrack();
         });
 
-        // Original typing animation code
         const phrases = [
             "Что-то между прогером и скрипт-кидди",
             "Владелец RT/RO",
