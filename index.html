@@ -7,13 +7,13 @@
     <meta property="og:title" content="A9FM">
     <meta property="og:description" content="Официальный сайт">
     <meta name="description" content="A9FM Официальный сайт. Artur Lamerov">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Author" content="A9FM">
     <meta name="Copyright" content="A9FM">
     <link rel="shortcut icon" href="assets/favico/ico.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Tektur:wght@400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --main-color: #ff3b6d;
@@ -37,10 +37,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(255, 59, 109, 0.15) 0%, transparent 30%),
-                radial-gradient(circle at 80% 70%, rgba(255, 123, 169, 0.15) 0%, transparent 30%);
             overflow-x: hidden;
+            will-change: transform;
         }
 
         .loader {
@@ -48,16 +46,18 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             background: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
+            transition: opacity 0.5s ease;
         }
 
         .loader-content {
             text-align: center;
+            transform: translateY(-50px);
         }
 
         .loader-spinner {
@@ -75,6 +75,7 @@
             font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 3px;
+            font-weight: bold;
         }
 
         @keyframes spin {
@@ -106,7 +107,7 @@
             object-fit: cover;
             margin-bottom: 20px;
             box-shadow: 0 0 30px rgba(255, 59, 109, 0.5);
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
         }
 
         .avatar:hover {
@@ -127,15 +128,8 @@
             min-height: 60px;
         }
 
-        .typing-text {
-            display: inline;
-            position: relative;
-        }
-
         .typing-text::after {
             content: "|";
-            position: absolute;
-            right: -5px;
             animation: blink 0.7s infinite;
             color: var(--main-color);
         }
@@ -160,12 +154,13 @@
             text-decoration: none;
             border-radius: 50px;
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 8px;
             min-width: 180px;
             justify-content: center;
+            will-change: transform;
         }
 
         .btn:hover {
@@ -174,8 +169,11 @@
             box-shadow: 0 10px 20px rgba(255, 59, 109, 0.3);
         }
 
-        .btn i {
-            font-size: 1.2rem;
+        .divider {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--main-color), transparent);
+            margin: 40px 0;
         }
 
         .section {
@@ -183,9 +181,9 @@
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 30px;
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 59, 109, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateZ(0);
         }
 
         .section h2 {
@@ -225,14 +223,6 @@
         .project h3 {
             color: var(--main-color);
             margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .project-icon {
-            width: 24px;
-            height: 24px;
         }
 
         .project p {
@@ -263,7 +253,6 @@
             font-size: 0.9rem;
         }
 
-        /* Last.fM Player Styles */
         .music-player {
             background: linear-gradient(135deg, rgba(255, 59, 109, 0.1), rgba(255, 123, 169, 0.1));
             border-radius: 20px;
@@ -271,7 +260,7 @@
             margin: 30px 0;
             border: 2px solid var(--main-color);
             box-shadow: 0 10px 30px rgba(255, 59, 109, 0.2);
-            backdrop-filter: blur(15px);
+            transform: translateZ(0);
         }
 
         .player-header {
@@ -287,10 +276,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .player-title i {
-            color: #d51007; /* Last.fM red */
         }
 
         .player-status {
@@ -319,6 +304,7 @@
             justify-content: center;
             font-size: 1.5rem;
             color: white;
+            flex-shrink: 0;
         }
 
         .album-art img {
@@ -330,6 +316,7 @@
 
         .track-details {
             flex: 1;
+            min-width: 0;
         }
 
         .track-name {
@@ -337,17 +324,26 @@
             color: var(--text-color);
             margin-bottom: 5px;
             font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .artist-name {
             color: var(--secondary-color);
             font-size: 1.1rem;
             margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .album-name {
             color: #aaa;
             font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .visualization {
@@ -394,7 +390,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             font-size: 1.2rem;
         }
 
@@ -416,7 +412,7 @@
             border-radius: 15px;
             font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .debug-toggle-btn:hover {
@@ -432,6 +428,8 @@
             font-size: 0.8rem;
             color: var(--secondary-color);
             display: none;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
         .last-updated {
@@ -516,7 +514,6 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="loader">
@@ -547,7 +544,8 @@
             <a href="tg://resolve?domain=roblox_offline" class="btn"><i class="fab fa-telegram"></i> Roblox Offline</a>
         </div>
 
-        <!-- Last.fM Music Player -->
+        <div class="divider"></div>
+
         <div class="music-player" id="music-player">
             <div class="player-header">
                 <div class="player-title">
@@ -569,7 +567,7 @@
                             <i class="fas fa-music"></i>
                         </div>
                         <div class="track-details">
-                            <div class="track-name" id="track-name">Название трека</div>
+                            <div class="track-name" id="track-name">Название трек</div>
                             <div class="artist-name" id="artist-name">Исполнитель</div>
                             <div class="album-name" id="album-name">Альбом</div>
                         </div>
@@ -593,7 +591,6 @@
                 </div>
             </div>
 
-            <!-- Debug toggle and info -->
             <div class="debug-toggle">
                 <button class="debug-toggle-btn" onclick="toggleDebug()">
                     <i class="fas fa-bug"></i> Отладка
@@ -601,7 +598,6 @@
             </div>
 
             <div class="debug-info" id="debug-info">
-                <strong>Отладка:</strong>
                 <div id="debug-content"></div>
             </div>
 
@@ -610,10 +606,9 @@
             </div>
         </div>
 
-        <!-- Остальной контент сайта -->
         <div class="section">
             <h2>> Обо мне <</h2>
-            <p>Школьник, скрипт-кидди, манякодер. </p>
+            <p>Школьник, скрипт-кидди, манякодер.</p>
             <p>Хрен знает что ещё написать.</p>
         </div>
 
@@ -699,6 +694,7 @@
         const LASTFM_API_KEY = '460cda35be2fbf4f28e8ea7a38580730';
         const LASTFM_USERNAME = 'a9fmTop';
         let isPlaying = false;
+        let visualizerInterval;
 
         function initVisualizer() {
             const visualizer = document.getElementById('visualizer-bars');
@@ -714,64 +710,41 @@
         function animateVisualizer() {
             const bars = document.querySelectorAll('.bar');
             bars.forEach(bar => {
-                const randomHeight = Math.random() * 80 + 5;
-                bar.style.height = `${randomHeight}px`;
-                bar.style.background = `linear-gradient(to top, var(--main-color), var(--secondary-color))`;
+                bar.style.height = `${Math.random() * 80 + 5}px`;
             });
         }
 
         async function getCurrentTrack() {
             try {
-                // api
                 const url = `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1`;
-                
-                // cors
                 const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
                 
-                // alt proxy
-                const corsProxy = `https://cors-anywhere.herokuapp.com/${url}`;
-                
-                debugLog(`Пытаюсь получить данные...`);
-                
-                // try
                 let response = await fetchWithTimeout(url, 5000).catch(() => null);
                 
                 if (!response || !response.ok) {
-                    debugLog(`Пробую CORS proxy...`);
                     response = await fetchWithTimeout(proxyUrl, 5000).catch(() => null);
-                }
-                
-                if (!response || !response.ok) {
-                    debugLog(`Пробую альтернативу...`);
-                    response = await fetchWithTimeout(corsProxy, 5000).catch(() => null);
                 }
                 
                 if (response && response.ok) {
                     const data = await response.json();
-                    debugLog(`Данные получены успешно!`);
                     
                     if (data.recenttracks && data.recenttracks.track.length > 0) {
                         const track = data.recenttracks.track[0];
                         const isNowPlaying = track['@attr'] && track['@attr']['nowplaying'] === 'true';
-                        
                         updatePlayer(track, isNowPlaying);
                         return true;
                     } else {
-                        debugLog(`Нет данных о треках`);
                         showNoTracks();
                     }
                 } else {
                     throw new Error('Все методы запроса не удались');
                 }
             } catch (error) {
-                console.error('Error fetching Last.fM data:', error);
-                debugLog(`Ошибка: ${error.message}`);
                 showError();
             }
             return false;
         }
 
-        // Fetch with timeout
         function fetchWithTimeout(url, timeout = 5000) {
             return Promise.race([
                 fetch(url),
@@ -781,24 +754,16 @@
             ]);
         }
 
-        // Debug logging
         function debugLog(message) {
-            console.log(`[Last.fM Debug] ${message}`);
             const debugContent = document.getElementById('debug-content');
-            
             if (debugContent) {
                 debugContent.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
             }
         }
 
-        // Toggle debug info
         function toggleDebug() {
             const debugInfo = document.getElementById('debug-info');
-            if (debugInfo.style.display === 'none' || !debugInfo.style.display) {
-                debugInfo.style.display = 'block';
-            } else {
-                debugInfo.style.display = 'none';
-            }
+            debugInfo.style.display = debugInfo.style.display === 'block' ? 'none' : 'block';
         }
 
         function updatePlayer(track, isNowPlaying) {
@@ -848,7 +813,6 @@
             noTrack.innerHTML = `
                 <i class="fas fa-info-circle"></i>
                 <p>Нет активных треков</p>
-                <p style="font-size: 0.8rem; margin-top: 10px;">Начните слушать музыку в Last.fM</p>
             `;
             
             status.textContent = '💤 НЕТ ТРЕКОВ';
@@ -865,8 +829,7 @@
             
             noTrack.innerHTML = `
                 <i class="fas fa-exclamation-triangle"></i>
-                <p>Не удалось загрузить данные Last.fM</p>
-                <p style="font-size: 0.8rem; margin-top: 10px;">Проверьте подключение к интернету</p>
+                <p>Не удалось загрузить данные</p>
             `;
             
             status.textContent = '❌ ОШИБКА';
@@ -883,7 +846,6 @@
             document.getElementById('last-updated').textContent = `Обновлено: ${timeString}`;
         }
 
-        let visualizerInterval;
         function startVisualizer() {
             stopVisualizer();
             visualizerInterval = setInterval(animateVisualizer, 150);
@@ -923,14 +885,14 @@
             getCurrentTrack();
         }
 
-        // Auto-refresh every 30 seconds
         setInterval(getCurrentTrack, 30000);
 
         window.addEventListener('load', function() {
             setTimeout(function() {
-                document.querySelector('.loader').style.opacity = '0';
+                const loader = document.querySelector('.loader');
+                loader.style.opacity = '0';
                 setTimeout(function() {
-                    document.querySelector('.loader').style.display = 'none';
+                    loader.style.display = 'none';
                 }, 500);
             }, 1000);
 
