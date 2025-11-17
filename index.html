@@ -305,6 +305,7 @@
             font-size: 1.5rem;
             color: white;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
         .album-art img {
@@ -312,6 +313,7 @@
             height: 100%;
             border-radius: 8px;
             object-fit: cover;
+            display: block;
         }
 
         .track-details {
@@ -863,8 +865,21 @@
             document.getElementById('album-name').textContent = track.album['#text'] || 'Неизвестный альбом';
             
             const albumArt = document.getElementById('album-art');
-            if (track.image && track.image[2] && track.image[2]['#text']) {
-                albumArt.innerHTML = `<img src="${track.image[2]['#text']}" alt="Album Art" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-music\"></i>'">`;
+            const imageUrl = track.image && track.image[2] && track.image[2]['#text'];
+            
+            if (imageUrl) {
+                const img = new Image();
+                img.onload = function() {
+                    albumArt.innerHTML = '';
+                    const newImg = document.createElement('img');
+                    newImg.src = imageUrl;
+                    newImg.alt = "Album Art";
+                    albumArt.appendChild(newImg);
+                };
+                img.onerror = function() {
+                    albumArt.innerHTML = '<i class="fas fa-music"></i>';
+                };
+                img.src = imageUrl;
             } else {
                 albumArt.innerHTML = '<i class="fas fa-music"></i>';
             }
