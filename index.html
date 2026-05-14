@@ -299,6 +299,20 @@
             display: block;
         }
 
+        /* АНИМАЦИЯ ПЕРЕХОДА ПЛЕЕРА */
+        .track-content-wrapper {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            will-change: opacity, transform;
+        }
+        .fade-out {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .info-card {
             background: rgba(16, 18, 27, 0.6);
             border-radius: 1.5rem;
@@ -392,32 +406,33 @@
             <div class="widget-title"><i class="fab fa-lastfm" style="color:#FF3B6D;"></i> Визуализатор</div>
             <div class="status-badge" id="playerStatus">Синхронизация...</div>
         </div>
-        <div id="trackContainer">
-            <div class="track-row" id="trackContent" style="display: none;">
-                <div class="track-cover" id="albumCover"><i class="fas fa-music"></i></div>
-                <div class="track-info">
-                    <div class="track-name" id="trackName">—</div>
-                    <div class="track-artist" id="artistName">—</div>
-                    <div class="track-album" id="albumName">—</div>
-                    <div class="last-play-date" id="lastPlayDate"></div>
+        <div id="trackContainer" style="position: relative; min-height: 130px;">
+            <div class="track-content-wrapper" id="trackContentWrapper">
+                <div class="track-row" id="trackContent" style="display: none;">
+                    <div class="track-cover" id="albumCover"><i class="fas fa-music"></i></div>
+                    <div class="track-info">
+                        <div class="track-name" id="trackName">—</div>
+                        <div class="track-artist" id="artistName">—</div>
+                        <div class="track-album" id="albumName">—</div>
+                        <div class="last-play-date" id="lastPlayDate"></div>
+                    </div>
+                    <div class="track-controls">
+                        <div class="ctrl-btn" onclick="openLastFmProfile()"><i class="fab fa-lastfm"></i></div>
+                        <div class="ctrl-btn" onclick="playPauseSimulate()"><i class="fas fa-play" id="playPauseIcon"></i></div>
+                        <div class="ctrl-btn" onclick="refreshTrackForce()"><i class="fas fa-sync-alt"></i></div>
+                    </div>
                 </div>
-                <div class="track-controls">
-                    <div class="ctrl-btn" onclick="openLastFmProfile()"><i class="fab fa-lastfm"></i></div>
-                    <div class="ctrl-btn" onclick="playPauseSimulate()"><i class="fas fa-play" id="playPauseIcon"></i></div>
-                    <div class="ctrl-btn" onclick="refreshTrackForce()"><i class="fas fa-sync-alt"></i></div>
-                </div>
+                <div id="noTrackMsg" style="text-align:center; padding: 1rem;">Загрузка...</div>
             </div>
-            <div id="noTrackMsg" style="text-align:center; padding: 1rem;">Загрузка...</div>
         </div>
         <div class="visualizer" id="visualizer"></div>
         <div class="debug-area">
-            <button class="debug-btn" onclick="toggleDebugLog()"><i class="fas fa-bug"></i> Отладка API (выбор прокси)</button>
+            <button class="debug-btn" onclick="toggleDebugLog()"><i class="fas fa-bug"></i> Отладка API</button>
             <div id="debugPanel" class="debug-panel"></div>
             <div class="last-updated" id="lastUpdated" style="font-size:0.65rem; margin-top:8px;"></div>
         </div>
     </div>
 
-    <!-- Остальные блоки -->
     <div class="info-card">
         <h3><i class="fas fa-user-astronaut"></i> Обо мне</h3>
         <p>Школьник, скрипт-кидди, манякодер. <br> Хрен знает что ещё написать.</p>
@@ -471,6 +486,12 @@
     let vizFrame = null;
     let currentTrackData = null;
     let previousTrackData = null;
+    let isFirstLoad = true;
+    
+    // Для отслеживания изменений трека
+    let lastTrackName = '';
+    let lastArtistName = '';
+    let lastWasNowPlaying = false;
 
     // DOM элементы
     const trackContent = document.getElementById('trackContent');
@@ -485,6 +506,7 @@
     const debugPanel = document.getElementById('debugPanel');
     const lastUpdatedSpan = document.getElementById('lastUpdated');
     const lastPlayDateSpan = document.getElementById('lastPlayDate');
+    const trackContentWrapper = document.getElementById('trackContentWrapper');
 
     function debugLog(msg) {
         console.log('[LastFM]', msg);
@@ -504,7 +526,80 @@
         lastUpdatedSpan.innerText = `Обновлено: ${now.toLocaleTimeString()}`;
     }
 
-    // Новая анимация — прыгающие случайные полоски
+    // Обновление UI без анимации
+    function applyTrackContentSilent(showTrack, trackData, isNowPlaying, lastDateStr) {
+        if (showTrack && trackData) {
+            const name = trackData.name || '—';
+            const artist = trackData.artist?.['#text'] || '—';
+            const album = trackData.album?.['#text'] || '—';
+            const imgUrl = trackData.image?.[2]?.['#text'];
+            trackNameSpan.innerText = name;
+            artistNameSpan.innerText = artist;
+            albumNameSpan.innerText = album;
+            lastPlayDateSpan.innerText = lastDateStr || '';
+            if (imgUrl) {
+                albumCoverDiv.innerHTML = `<img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;" alt="cover">`;
+            } else {
+                albumCoverDiv.innerHTML = '<i class="fas fa-music"></i>';
+            }
+            trackContent.style.display = 'flex';
+            noTrackMsg.style.display = 'none';
+        } else {
+            trackContent.style.display = 'none';
+            noTrackMsg.style.display = 'block';
+            if (trackData === 'error') {
+                noTrackMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка загрузки данных. Плеер не работает, но вы всегда можете открыть <strong>Last.fm</strong>.<br><small>см. панель отладки для деталей.</small>';
+            } else {
+                noTrackMsg.innerHTML = '<i class="fas fa-headphones"></i> Загрузка...';
+            }
+        }
+    }
+
+    // Анимация только при реальном изменении трека
+    function updateTrackDisplayIfChanged(showTrack, trackData, isNowPlaying, lastDateStr = null) {
+        let newTrackName = '';
+        let newArtistName = '';
+        if (showTrack && trackData) {
+            newTrackName = trackData.name || '';
+            newArtistName = trackData.artist?.['#text'] || '';
+        }
+        
+        // Проверяем, изменился ли трек (название, исполнитель или статус now playing)
+        const trackChanged = (newTrackName !== lastTrackName) || 
+                            (newArtistName !== lastArtistName) || 
+                            (isNowPlaying !== lastWasNowPlaying);
+        
+        if (!trackChanged && !isFirstLoad) {
+            debugLog('Трек не изменился, анимация не нужна');
+            return;
+        }
+        
+        debugLog('Трек изменился, запускаем анимацию');
+        
+        // Сохраняем новые значения
+        lastTrackName = newTrackName;
+        lastArtistName = newArtistName;
+        lastWasNowPlaying = isNowPlaying;
+        
+        if (!isFirstLoad) {
+            // Анимация исчезновения
+            trackContentWrapper.classList.add('fade-out');
+            setTimeout(() => {
+                applyTrackContentSilent(showTrack, trackData, isNowPlaying, lastDateStr);
+                trackContentWrapper.classList.remove('fade-out');
+                trackContentWrapper.classList.add('fade-in');
+                setTimeout(() => {
+                    trackContentWrapper.classList.remove('fade-in');
+                }, 300);
+            }, 200);
+        } else {
+            // Первая загрузка без анимации
+            applyTrackContentSilent(showTrack, trackData, isNowPlaying, lastDateStr);
+            isFirstLoad = false;
+        }
+    }
+
+    // Визуализатор
     let barHeights = [];
     let barTargets = [];
     
@@ -522,7 +617,6 @@
     function startVisualizerAnim() {
         if (vizFrame) cancelAnimationFrame(vizFrame);
         if (!isPlayingFake) {
-            // Плавное затухание на паузе
             const bars = document.querySelectorAll('.viz-bar');
             function fadeOut() {
                 let anyMove = false;
@@ -553,13 +647,11 @@
             }
         }
         
-        // Каждый кадр с вероятностью 15% — новый случайный рывок для нескольких столбцов
         for (let i = 0; i < barCount; i++) {
-            if (Math.random() < 0.18) { // 18% шанс на рывок
-                let newTarget = Math.random() * 55 + 8; // от 8 до 63
+            if (Math.random() < 0.18) {
+                let newTarget = Math.random() * 55 + 8;
                 barTargets[i] = newTarget;
             }
-            // Движение к цели: ускоряемся вверх, замедляемся вниз для упругости
             let diff = barTargets[i] - barHeights[i];
             let step = diff * 0.22;
             if (Math.abs(step) < 0.3 && Math.abs(diff) > 0.5) step = diff > 0 ? 0.5 : -0.5;
@@ -613,139 +705,83 @@
         window.open('https://last.fm/user/a9fmTop', '_blank');
     }
 
-    // API запросы (без изменений)
-    async function fetchWithProxy(proxyUrl, targetUrl, attemptIndex) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    // Загрузка данных с Last.fm
+    async function fetchLastFM() {
+        const targetUrl = `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json&limit=2`;
+        
+        // Прямой запрос
         try {
-            const fullUrl = proxyUrl + encodeURIComponent(targetUrl);
-            debugLog(`[Proxy ${attemptIndex+1}] Пытаюсь: ${proxyUrl.substring(0, 30)}...`);
-            const response = await fetch(fullUrl, { signal: controller.signal });
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+            const response = await fetch(targetUrl, { signal: controller.signal });
             clearTimeout(timeoutId);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            debugLog(`[Proxy ${attemptIndex+1}] УСПЕХ!`);
             return data;
         } catch (err) {
-            clearTimeout(timeoutId);
-            debugLog(`[Proxy ${attemptIndex+1}] Ошибка: ${err.message}`);
-            throw err;
-        }
-    }
-
-    async function fetchLastFM() {
-        const targetUrl = `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json&limit=2`;
-        for (let i = 0; i < PROXY_LIST.length; i++) {
-            try {
-                return await fetchWithProxy(PROXY_LIST[i], targetUrl, i);
-            } catch (err) { }
-        }
-        try {
-            debugLog(`Пробую прямой запрос без прокси (риск CORS)...`);
-            const response = await fetch(targetUrl);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
-        } catch (err) {
             debugLog(`Прямой запрос не удался: ${err.message}`);
+            // Пробуем прокси
+            for (let i = 0; i < PROXY_LIST.length; i++) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+                    const fullUrl = PROXY_LIST[i] + encodeURIComponent(targetUrl);
+                    const response = await fetch(fullUrl, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const data = await response.json();
+                    return data;
+                } catch (err) {
+                    // продолжаем
+                }
+            }
             throw new Error('Все прокси и прямой доступ не работают');
         }
     }
 
     async function getCurrentTrack(force = false) {
         try {
-            noTrackMsg.innerHTML = '<i class="fas fa-headphones"></i> Жди...';
             const data = await fetchLastFM();
-            debugLog('API Last.fm успешно отвечен');
+            
             if (data.recenttracks && data.recenttracks.track && data.recenttracks.track.length) {
                 const tracks = data.recenttracks.track;
                 const nowPlayingTrack = tracks.find(t => t['@attr'] && t['@attr']['nowplaying'] === 'true');
                 const lastTrack = tracks[0];
+                
                 if (nowPlayingTrack) {
                     currentTrackData = { ...nowPlayingTrack, nowplaying: true };
                     previousTrackData = null;
-                    updatePlayerUI(currentTrackData, true);
+                    updateTrackDisplayIfChanged(true, currentTrackData, true, null);
+                    // Обновляем статус плеера
+                    playerStatusSpan.innerText = 'Сейчас слушаю';
+                    playerStatusSpan.style.background = 'rgba(255,59,109,0.4)';
+                    isPlayingFake = true;
+                    playPauseIcon.className = 'fas fa-pause';
+                    startVisualizerAnim();
                 } else {
                     currentTrackData = null;
                     previousTrackData = lastTrack;
                     const lastDate = lastTrack.date ? lastTrack.date['#text'] : null;
-                    updateInactiveUI(previousTrackData, lastDate);
+                    const formattedDate = lastDate ? `Ранее играло: ${new Date(lastDate).toLocaleString('ru-RU', { hour: '2-digit', minute:'2-digit', day:'2-digit', month:'short' })} (UTC)` : '';
+                    updateTrackDisplayIfChanged(true, previousTrackData, false, formattedDate);
+                    // Обновляем статус плеера
+                    playerStatusSpan.innerText = 'Сейчас ничего не играет';
+                    playerStatusSpan.style.background = 'rgba(128,128,128,0.2)';
+                    isPlayingFake = false;
+                    playPauseIcon.className = 'fas fa-play';
+                    stopVisualizerAnim();
                 }
             } else {
                 throw new Error('Нет треков пользователя');
             }
         } catch (err) {
             debugLog(`Финальная ошибка: ${err.message}`);
-            showErrorPlaceholder();
-        }
-        updateTime();
-    }
-
-    function updateInactiveUI(track, lastDate) {
-        trackContent.style.display = 'flex';
-        noTrackMsg.style.display = 'none';
-        const name = track.name || '—';
-        const artist = track.artist?.['#text'] || '—';
-        const album = track.album?.['#text'] || '—';
-        const imgUrl = track.image?.[2]?.['#text'];
-        trackNameSpan.innerText = name;
-        artistNameSpan.innerText = artist;
-        albumNameSpan.innerText = album;
-        if (lastDate) {
-            const formattedDate = new Date(lastDate).toLocaleString('ru-RU', { hour: '2-digit', minute:'2-digit', day:'2-digit', month:'short' });
-            lastPlayDateSpan.innerText = `Ранее играло: ${formattedDate} (UTC)`;
-        } else {
-            lastPlayDateSpan.innerText = '';
-        }
-        if (imgUrl) {
-            albumCoverDiv.innerHTML = `<img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;" alt="cover">`;
-        } else {
-            albumCoverDiv.innerHTML = '<i class="fas fa-music"></i>';
-        }
-        playerStatusSpan.innerText = 'Сейчас ничего не играет';
-        playerStatusSpan.style.background = 'rgba(128,128,128,0.2)';
-        isPlayingFake = false;
-        playPauseIcon.className = 'fas fa-play';
-        stopVisualizerAnim();
-    }
-
-    function updatePlayerUI(track, isNowPlaying) {
-        trackContent.style.display = 'flex';
-        noTrackMsg.style.display = 'none';
-        const name = track.name || '—';
-        const artist = track.artist?.['#text'] || '—';
-        const album = track.album?.['#text'] || '—';
-        const imgUrl = track.image?.[2]?.['#text'];
-        trackNameSpan.innerText = name;
-        artistNameSpan.innerText = artist;
-        albumNameSpan.innerText = album;
-        lastPlayDateSpan.innerText = '';
-        if (imgUrl) {
-            albumCoverDiv.innerHTML = `<img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;" alt="cover">`;
-        } else {
-            albumCoverDiv.innerHTML = '<i class="fas fa-music"></i>';
-        }
-        if (isNowPlaying) {
-            playerStatusSpan.innerText = 'Сейчас слушаю';
-            playerStatusSpan.style.background = 'rgba(255,59,109,0.4)';
-            isPlayingFake = true;
-            playPauseIcon.className = 'fas fa-pause';
-            startVisualizerAnim();
-        } else {
-            playerStatusSpan.innerText = 'Пауза';
-            playerStatusSpan.style.background = 'rgba(128,128,128,0.3)';
-            isPlayingFake = false;
-            playPauseIcon.className = 'fas fa-play';
+            updateTrackDisplayIfChanged(false, 'error', false);
+            playerStatusSpan.innerHTML = 'Ошибка синхр.';
+            playerStatusSpan.style.background = 'rgba(255,0,0,0.2)';
             stopVisualizerAnim();
         }
-    }
-
-    function showErrorPlaceholder() {
-        trackContent.style.display = 'none';
-        noTrackMsg.style.display = 'block';
-        noTrackMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка загрузки данных. Плеер не работает, но вы всегда можете открыть <strong>Last.fm</strong>.<br><small>см. панель отладки для деталей.</small>';
-        playerStatusSpan.innerHTML = 'Ошибка синхр.';
-        playerStatusSpan.style.background = 'rgba(255,0,0,0.2)';
-        stopVisualizerAnim();
+        updateTime();
     }
 
     // Typewriter эффект
