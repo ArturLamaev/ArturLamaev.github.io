@@ -51,9 +51,7 @@
             z-index: 1000;
             transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
-        .loader-content {
-            text-align: center;
-        }
+        .loader-content { text-align: center; }
         .loader-circle {
             width: 48px;
             height: 48px;
@@ -87,10 +85,6 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             margin-bottom: 1.2rem;
         }
-        .avatar:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 40px rgba(255, 59, 109, 0.5);
-        }
         h1 {
             font-size: 2.8rem;
             font-weight: 800;
@@ -123,10 +117,7 @@
             margin-left: 2px;
             vertical-align: middle;
         }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+        @keyframes blink { 50% { opacity: 0; } }
 
         .links-grid {
             display: grid;
@@ -148,11 +139,16 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+            animation: cardAppear 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) backwards;
         }
         .social-card i {
             font-size: 1.4rem;
             width: 28px;
             text-align: center;
+            transition: transform 0.2s ease;
+            z-index: 1;
         }
         .social-card:hover {
             background: #FF3B6D;
@@ -161,6 +157,34 @@
             box-shadow: 0 8px 20px rgba(255, 59, 109, 0.3);
             color: white;
         }
+        .social-card:hover i { transform: scale(1.1); }
+        .social-card:active { transform: scale(0.97); transition: 0.05s; }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+        @keyframes ripple-animation {
+            to { transform: scale(6); opacity: 0; }
+        }
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .social-card:nth-child(1) { animation-delay: 0.02s; }
+        .social-card:nth-child(2) { animation-delay: 0.04s; }
+        .social-card:nth-child(3) { animation-delay: 0.06s; }
+        .social-card:nth-child(4) { animation-delay: 0.08s; }
+        .social-card:nth-child(5) { animation-delay: 0.10s; }
+        .social-card:nth-child(6) { animation-delay: 0.12s; }
+        .social-card:nth-child(7) { animation-delay: 0.14s; }
+        .social-card:nth-child(8) { animation-delay: 0.16s; }
+        .social-card:nth-child(9) { animation-delay: 0.18s; }
+        .social-card:nth-child(10) { animation-delay: 0.20s; }
+        .social-card:nth-child(11) { animation-delay: 0.22s; }
 
         .music-widget {
             background: rgba(12, 15, 24, 0.8);
@@ -212,27 +236,11 @@
             flex: 2;
             min-width: 160px;
         }
-        .track-name {
-            font-weight: 800;
-            font-size: 1.2rem;
-        }
-        .track-artist {
-            color: #A0A3C0;
-            font-size: 0.9rem;
-        }
-        .track-album {
-            font-size: 0.8rem;
-            color: #7A7D9E;
-        }
-        .last-play-date {
-            font-size: 0.7rem;
-            color: #55587A;
-            margin-top: 4px;
-        }
-        .track-controls {
-            display: flex;
-            gap: 0.6rem;
-        }
+        .track-name { font-weight: 800; font-size: 1.2rem; }
+        .track-artist { color: #A0A3C0; font-size: 0.9rem; }
+        .track-album { font-size: 0.8rem; color: #7A7D9E; }
+        .last-play-date { font-size: 0.7rem; color: #55587A; margin-top: 4px; }
+        .track-controls { display: flex; gap: 0.6rem; }
         .ctrl-btn {
             background: rgba(255, 59, 109, 0.2);
             border-radius: 50%;
@@ -295,23 +303,13 @@
             display: none;
             text-align: left;
         }
-        .show-debug {
-            display: block;
-        }
-
-        /* АНИМАЦИЯ ПЕРЕХОДА ПЛЕЕРА */
+        .show-debug { display: block; }
         .track-content-wrapper {
             transition: opacity 0.3s ease, transform 0.3s ease;
             will-change: opacity, transform;
         }
-        .fade-out {
-            opacity: 0;
-            transform: translateY(-6px);
-        }
-        .fade-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .fade-out { opacity: 0; transform: translateY(-6px); }
+        .fade-in { opacity: 1; transform: translateY(0); }
 
         .info-card {
             background: rgba(16, 18, 27, 0.6);
@@ -362,7 +360,6 @@
             border-top: 1px dashed #2A2E45;
             padding-top: 1.8rem;
         }
-
         @media (max-width: 640px) {
             .container { padding: 1rem 1rem 2rem; }
             h1 { font-size: 2.2rem; }
@@ -398,12 +395,13 @@
         <a href="https://www.youtube.com/channel/UCl5P2stynkIvV8bsUdaRB6A" class="social-card"><i class="fab fa-youtube"></i> YouTube</a>
         <a href="https://last.fm/user/a9fmTop" class="social-card"><i class="fab fa-lastfm"></i> Last.fm</a>
         <a href="https://anixartapp.com/profile/1876789" class="social-card"><i class="fas fa-film"></i> Anixart</a>
+        <a href="https://steamcommunity.com/id/a9fm/" class="social-card"><i class="fab fa-steam"></i> Steam</a>
         <a href="tg://resolve?domain=roblox_offline" class="social-card"><i class="fab fa-telegram"></i> Roblox Offline</a>
     </div>
 
     <div class="music-widget" id="musicWidget">
         <div class="widget-header">
-            <div class="widget-title"><i class="fab fa-lastfm" style="color:#FF3B6D;"></i> Визуализатор</div>
+            <div class="widget-title"><i class="fab fa-lastfm" style="color:#FF3B6D;"></i> Сейчас слушаю</div>
             <div class="status-badge" id="playerStatus">Синхронизация...</div>
         </div>
         <div id="trackContainer" style="position: relative; min-height: 130px;">
@@ -427,7 +425,7 @@
         </div>
         <div class="visualizer" id="visualizer"></div>
         <div class="debug-area">
-            <button class="debug-btn" onclick="toggleDebugLog()"><i class="fas fa-bug"></i> Отладка API</button>
+            <button class="debug-btn" onclick="toggleDebugLog()"><i class="fas fa-bug"></i> Отладка</button>
             <div id="debugPanel" class="debug-panel"></div>
             <div class="last-updated" id="lastUpdated" style="font-size:0.65rem; margin-top:8px;"></div>
         </div>
@@ -437,12 +435,14 @@
         <h3><i class="fas fa-user-astronaut"></i> Обо мне</h3>
         <p>Школьник, скрипт-кидди, манякодер. <br> Хрен знает что ещё написать.</p>
     </div>
+
     <div class="info-card">
         <h3><i class="fas fa-code"></i> Чё я знаю</h3>
         <div class="tag-group">
             <span class="tag">Python</span><span class="tag">Bash</span><span class="tag">HTML/CSS</span>
         </div>
     </div>
+
     <div class="info-card">
         <h3><i class="fas fa-laptop-code"></i> Работал с</h3>
         <div class="tag-group">
@@ -450,6 +450,7 @@
             <span class="tag">Linux Mint</span><span class="tag">Raspberry pi OS</span><span class="tag">Armbian</span>
         </div>
     </div>
+
     <div class="info-card">
         <h3><i class="fas fa-vector-square"></i> Основные направления</h3>
         <div class="tag-group">
@@ -458,19 +459,52 @@
             <span class="tag">Настройка домашнего сервера на Raspberry PI</span><span class="tag">Ламерство [пентестинг]</span>
         </div>
     </div>
+
     <div class="info-card">
         <h3><i class="fas fa-folder-open"></i> Мои проекты</h3>
         <div class="project-item"><a href="https://github.com/FoxUserbot/FoxUserbot"><i class="fab fa-github"></i> FoxUserbot</a> — Telegram Userbot на Kurigram/Pyrogram.</div>
         <div class="project-item"><a href="https://github.com/a9fm/MSWT"><i class="fab fa-github"></i> MSWT</a> — Manage Server With Telegram.</div>
         <div class="project-item"><a href="./roblox_offline/index.html"><i class="fas fa-gamepad"></i> Roblox Offline</a> — Антискам движение в сфере Roblox.</div>
     </div>
+
+    <div class="info-card">
+        <h3><i class="fas fa-heart" style="color:#FF3B6D;"></i> Поддержать денюшкой</h3>
+        <div style="margin-top: 1rem;">
+            <div style="margin-bottom: 10px;">
+                <strong>TON:</strong> <code style="background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 8px;">UQCVK8k5aPaMoIgLiFXGB3l8lJUAPMWqkL4J4DSSs3fuywGq</code>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <strong>XMR / СБП:</strong> по запросу в Telegram
+            </div>
+        </div>
+    </div>
+
     <div class="footer-quote">
         "Неблагодарность убивает энтузиазм... Навсегда!"
     </div>
 </div>
 
 <script>
-    // Конфигурация Last.fm
+    // ripple-эффект для ссылок
+    document.querySelectorAll('.social-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.width = '20px';
+            ripple.style.height = '20px';
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Last.fm
     const LASTFM_API_KEY = '460cda35be2fbf4f28e8ea7a38580730';
     const LASTFM_USER = 'a9fmTop';
     const PROXY_LIST = [
@@ -487,13 +521,8 @@
     let currentTrackData = null;
     let previousTrackData = null;
     let isFirstLoad = true;
-    
-    // Для отслеживания изменений трека
-    let lastTrackName = '';
-    let lastArtistName = '';
-    let lastWasNowPlaying = false;
+    let lastTrackName = '', lastArtistName = '', lastWasNowPlaying = false;
 
-    // DOM элементы
     const trackContent = document.getElementById('trackContent');
     const noTrackMsg = document.getElementById('noTrackMsg');
     const playerStatusSpan = document.getElementById('playerStatus');
@@ -516,17 +545,9 @@
             debugPanel.scrollTop = debugPanel.scrollHeight;
         }
     }
+    function toggleDebugLog() { debugPanel.classList.toggle('show-debug'); }
+    function updateTime() { lastUpdatedSpan.innerText = `Обновлено: ${new Date().toLocaleTimeString()}`; }
 
-    function toggleDebugLog() {
-        debugPanel.classList.toggle('show-debug');
-    }
-
-    function updateTime() {
-        const now = new Date();
-        lastUpdatedSpan.innerText = `Обновлено: ${now.toLocaleTimeString()}`;
-    }
-
-    // Обновление UI без анимации
     function applyTrackContentSilent(showTrack, trackData, isNowPlaying, lastDateStr) {
         if (showTrack && trackData) {
             const name = trackData.name || '—';
@@ -537,121 +558,67 @@
             artistNameSpan.innerText = artist;
             albumNameSpan.innerText = album;
             lastPlayDateSpan.innerText = lastDateStr || '';
-            if (imgUrl) {
-                albumCoverDiv.innerHTML = `<img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;" alt="cover">`;
-            } else {
-                albumCoverDiv.innerHTML = '<i class="fas fa-music"></i>';
-            }
+            if (imgUrl) albumCoverDiv.innerHTML = `<img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;" alt="cover">`;
+            else albumCoverDiv.innerHTML = '<i class="fas fa-music"></i>';
             trackContent.style.display = 'flex';
             noTrackMsg.style.display = 'none';
         } else {
             trackContent.style.display = 'none';
             noTrackMsg.style.display = 'block';
-            if (trackData === 'error') {
-                noTrackMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка загрузки данных. Плеер не работает, но вы всегда можете открыть <strong>Last.fm</strong>.<br><small>см. панель отладки для деталей.</small>';
-            } else {
-                noTrackMsg.innerHTML = '<i class="fas fa-headphones"></i> Загрузка...';
-            }
+            if (trackData === 'error') noTrackMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка загрузки данных. Плеер не работает, но вы всегда можете открыть <strong>Last.fm</strong>.<br><small>см. панель отладки для деталей.</small>';
+            else noTrackMsg.innerHTML = '<i class="fas fa-headphones"></i> Загрузка...';
         }
     }
 
-    // Анимация только при реальном изменении трека
     function updateTrackDisplayIfChanged(showTrack, trackData, isNowPlaying, lastDateStr = null) {
-        let newTrackName = '';
-        let newArtistName = '';
-        if (showTrack && trackData) {
-            newTrackName = trackData.name || '';
-            newArtistName = trackData.artist?.['#text'] || '';
-        }
-        
-        // Проверяем, изменился ли трек (название, исполнитель или статус now playing)
-        const trackChanged = (newTrackName !== lastTrackName) || 
-                            (newArtistName !== lastArtistName) || 
-                            (isNowPlaying !== lastWasNowPlaying);
-        
-        if (!trackChanged && !isFirstLoad) {
-            debugLog('Трек не изменился, анимация не нужна');
-            return;
-        }
-        
+        let newTrackName = '', newArtistName = '';
+        if (showTrack && trackData) { newTrackName = trackData.name || ''; newArtistName = trackData.artist?.['#text'] || ''; }
+        const trackChanged = (newTrackName !== lastTrackName) || (newArtistName !== lastArtistName) || (isNowPlaying !== lastWasNowPlaying);
+        if (!trackChanged && !isFirstLoad) { debugLog('Трек не изменился, анимация не нужна'); return; }
         debugLog('Трек изменился, запускаем анимацию');
-        
-        // Сохраняем новые значения
-        lastTrackName = newTrackName;
-        lastArtistName = newArtistName;
-        lastWasNowPlaying = isNowPlaying;
-        
+        lastTrackName = newTrackName; lastArtistName = newArtistName; lastWasNowPlaying = isNowPlaying;
         if (!isFirstLoad) {
-            // Анимация исчезновения
             trackContentWrapper.classList.add('fade-out');
             setTimeout(() => {
                 applyTrackContentSilent(showTrack, trackData, isNowPlaying, lastDateStr);
                 trackContentWrapper.classList.remove('fade-out');
                 trackContentWrapper.classList.add('fade-in');
-                setTimeout(() => {
-                    trackContentWrapper.classList.remove('fade-in');
-                }, 300);
+                setTimeout(() => trackContentWrapper.classList.remove('fade-in'), 300);
             }, 200);
         } else {
-            // Первая загрузка без анимации
             applyTrackContentSilent(showTrack, trackData, isNowPlaying, lastDateStr);
             isFirstLoad = false;
         }
     }
 
-    // Визуализатор
-    let barHeights = [];
-    let barTargets = [];
-    
+    let barHeights = [], barTargets = [];
     function buildVisualizer() {
         visualizerDiv.innerHTML = '';
-        const barCount = 48;
-        for (let i = 0; i < barCount; i++) {
+        for (let i = 0; i < 48; i++) {
             const bar = document.createElement('div');
             bar.className = 'viz-bar';
             bar.style.height = '5px';
             visualizerDiv.appendChild(bar);
         }
     }
-    
     function startVisualizerAnim() {
         if (vizFrame) cancelAnimationFrame(vizFrame);
         if (!isPlayingFake) {
             const bars = document.querySelectorAll('.viz-bar');
-            function fadeOut() {
+            const fadeOut = () => {
                 let anyMove = false;
-                bars.forEach(bar => {
-                    let h = parseFloat(bar.style.height);
-                    if (h > 5) {
-                        anyMove = true;
-                        bar.style.height = Math.max(5, h - 1.2) + 'px';
-                    }
-                });
-                if (anyMove) {
-                    vizFrame = requestAnimationFrame(fadeOut);
-                } else {
-                    vizFrame = null;
-                }
-            }
+                bars.forEach(bar => { let h = parseFloat(bar.style.height); if (h > 5) { anyMove = true; bar.style.height = Math.max(5, h - 1.2) + 'px'; } });
+                if (anyMove) vizFrame = requestAnimationFrame(fadeOut);
+                else vizFrame = null;
+            };
             vizFrame = requestAnimationFrame(fadeOut);
             return;
         }
-        
         const bars = document.querySelectorAll('.viz-bar');
         const barCount = bars.length;
-        
-        if (barHeights.length === 0) {
-            for (let i = 0; i < barCount; i++) {
-                barHeights.push(5);
-                barTargets.push(5);
-            }
-        }
-        
+        if (barHeights.length === 0) for (let i = 0; i < barCount; i++) { barHeights.push(5); barTargets.push(5); }
         for (let i = 0; i < barCount; i++) {
-            if (Math.random() < 0.18) {
-                let newTarget = Math.random() * 55 + 8;
-                barTargets[i] = newTarget;
-            }
+            if (Math.random() < 0.18) { let newTarget = Math.random() * 55 + 8; barTargets[i] = newTarget; }
             let diff = barTargets[i] - barHeights[i];
             let step = diff * 0.22;
             if (Math.abs(step) < 0.3 && Math.abs(diff) > 0.5) step = diff > 0 ? 0.5 : -0.5;
@@ -662,32 +629,20 @@
         }
         vizFrame = requestAnimationFrame(startVisualizerAnim);
     }
-
     function stopVisualizerAnim() {
-        if (vizFrame) {
-            cancelAnimationFrame(vizFrame);
-            vizFrame = null;
-        }
-        const bars = document.querySelectorAll('.viz-bar');
-        if (bars.length) {
-            bars.forEach(bar => bar.style.height = '5px');
-        }
-        barHeights = [];
-        barTargets = [];
+        if (vizFrame) cancelAnimationFrame(vizFrame);
+        vizFrame = null;
+        document.querySelectorAll('.viz-bar').forEach(bar => bar.style.height = '5px');
+        barHeights = []; barTargets = [];
     }
-
     function playPauseSimulate() {
         if (!currentTrackData && !previousTrackData) return;
         isPlayingFake = !isPlayingFake;
         if (isPlayingFake) {
             playPauseIcon.className = 'fas fa-pause';
-            if (currentTrackData && currentTrackData.nowplaying) {
-                playerStatusSpan.innerText = 'Сейчас слушаю';
-                playerStatusSpan.style.background = 'rgba(255,59,109,0.4)';
-            } else if (previousTrackData) {
-                playerStatusSpan.innerText = 'Пауза (последний трек)';
-                playerStatusSpan.style.background = 'rgba(128,128,128,0.3)';
-            }
+            if (currentTrackData && currentTrackData.nowplaying) playerStatusSpan.innerText = 'Сейчас слушаю';
+            else if (previousTrackData) playerStatusSpan.innerText = 'Пауза (последний трек)';
+            playerStatusSpan.style.background = 'rgba(255,59,109,0.4)';
             startVisualizerAnim();
         } else {
             playPauseIcon.className = 'fas fa-play';
@@ -696,31 +651,20 @@
             stopVisualizerAnim();
         }
     }
+    function refreshTrackForce() { getCurrentTrack(true); }
+    function openLastFmProfile() { window.open('https://last.fm/user/a9fmTop', '_blank'); }
 
-    function refreshTrackForce() {
-        getCurrentTrack(true);
-    }
-
-    function openLastFmProfile() {
-        window.open('https://last.fm/user/a9fmTop', '_blank');
-    }
-
-    // Загрузка данных с Last.fm
     async function fetchLastFM() {
         const targetUrl = `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json&limit=2`;
-        
-        // Прямой запрос
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
             const response = await fetch(targetUrl, { signal: controller.signal });
             clearTimeout(timeoutId);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const data = await response.json();
-            return data;
+            return await response.json();
         } catch (err) {
             debugLog(`Прямой запрос не удался: ${err.message}`);
-            // Пробуем прокси
             for (let i = 0; i < PROXY_LIST.length; i++) {
                 try {
                     const controller = new AbortController();
@@ -729,30 +673,24 @@
                     const response = await fetch(fullUrl, { signal: controller.signal });
                     clearTimeout(timeoutId);
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    const data = await response.json();
-                    return data;
-                } catch (err) {
-                    // продолжаем
-                }
+                    return await response.json();
+                } catch { }
             }
             throw new Error('Все прокси и прямой доступ не работают');
         }
     }
 
-    async function getCurrentTrack(force = false) {
+    async function getCurrentTrack() {
         try {
             const data = await fetchLastFM();
-            
             if (data.recenttracks && data.recenttracks.track && data.recenttracks.track.length) {
                 const tracks = data.recenttracks.track;
                 const nowPlayingTrack = tracks.find(t => t['@attr'] && t['@attr']['nowplaying'] === 'true');
                 const lastTrack = tracks[0];
-                
                 if (nowPlayingTrack) {
                     currentTrackData = { ...nowPlayingTrack, nowplaying: true };
                     previousTrackData = null;
                     updateTrackDisplayIfChanged(true, currentTrackData, true, null);
-                    // Обновляем статус плеера
                     playerStatusSpan.innerText = 'Сейчас слушаю';
                     playerStatusSpan.style.background = 'rgba(255,59,109,0.4)';
                     isPlayingFake = true;
@@ -764,16 +702,13 @@
                     const lastDate = lastTrack.date ? lastTrack.date['#text'] : null;
                     const formattedDate = lastDate ? `Ранее играло: ${new Date(lastDate).toLocaleString('ru-RU', { hour: '2-digit', minute:'2-digit', day:'2-digit', month:'short' })} (UTC)` : '';
                     updateTrackDisplayIfChanged(true, previousTrackData, false, formattedDate);
-                    // Обновляем статус плеера
                     playerStatusSpan.innerText = 'Сейчас ничего не играет';
                     playerStatusSpan.style.background = 'rgba(128,128,128,0.2)';
                     isPlayingFake = false;
                     playPauseIcon.className = 'fas fa-play';
                     stopVisualizerAnim();
                 }
-            } else {
-                throw new Error('Нет треков пользователя');
-            }
+            } else throw new Error('Нет треков пользователя');
         } catch (err) {
             debugLog(`Финальная ошибка: ${err.message}`);
             updateTrackDisplayIfChanged(false, 'error', false);
@@ -784,48 +719,20 @@
         updateTime();
     }
 
-    // Typewriter эффект
-    const phrases = [
-        "Что-то между прогером и скрипт-кидди",
-        "Владелец RT/RO",
-        "ANTI-SCAM",
-        "Python Developer",
-        "coder",
-        "vzlom jopi",
-        "Pashalko",
-        "Femboy",
-    ];
+    const phrases = ["Что-то между прогером и скрипт-кидди", "Владелец RT/RO", "ANTI-SCAM", "Python Developer", "coder", "vzlom jopi", "Pashalko", "Femboy", "ЭтоНеЯ!", ""];
     let idx = 0, charIdx = 0, isDeletingFlag = false;
     const dynSpan = document.getElementById('dynamicText');
     function typeWriter() {
         const full = phrases[idx];
-        if (isDeletingFlag) {
-            dynSpan.innerText = full.substring(0, charIdx-1);
-            charIdx--;
-        } else {
-            dynSpan.innerText = full.substring(0, charIdx+1);
-            charIdx++;
-        }
-        if (!isDeletingFlag && charIdx === full.length) {
-            isDeletingFlag = true;
-            setTimeout(typeWriter, 1800);
-            return;
-        }
-        if (isDeletingFlag && charIdx === 0) {
-            isDeletingFlag = false;
-            idx = (idx+1) % phrases.length;
-            setTimeout(typeWriter, 400);
-            return;
-        }
+        if (isDeletingFlag) { dynSpan.innerText = full.substring(0, charIdx-1); charIdx--; }
+        else { dynSpan.innerText = full.substring(0, charIdx+1); charIdx++; }
+        if (!isDeletingFlag && charIdx === full.length) { isDeletingFlag = true; setTimeout(typeWriter, 1800); return; }
+        if (isDeletingFlag && charIdx === 0) { isDeletingFlag = false; idx = (idx+1) % phrases.length; setTimeout(typeWriter, 400); return; }
         setTimeout(typeWriter, isDeletingFlag ? 50 : 110);
     }
 
     window.addEventListener('load', () => {
-        setTimeout(() => {
-            const loader = document.getElementById('loader');
-            loader.style.opacity = '0';
-            setTimeout(() => loader.style.display = 'none', 400);
-        }, 900);
+        setTimeout(() => { const loader = document.getElementById('loader'); loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 400); }, 900);
         buildVisualizer();
         getCurrentTrack();
         setInterval(() => getCurrentTrack(false), 35000);
