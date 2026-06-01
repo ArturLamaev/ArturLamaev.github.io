@@ -21,7 +21,7 @@
 
         body {
             background: #0B0D15;
-            background-image: radial-gradient(circle at 25% 0%, rgba(255, 59, 109, 0.08) 0%, rgba(11, 13, 21, 1) 70%);
+            background-image: radial-gradient(circle at 25% 0%, rgba(255, 105, 180, 0.08) 0%, rgba(11, 13, 21, 1) 70%);
             color: #E2E4F0;
             font-family: 'Inter', sans-serif;
             line-height: 1.5;
@@ -30,7 +30,7 @@
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1A1D2E; }
-        ::-webkit-scrollbar-thumb { background: #FF3B6D; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #FF69B4; border-radius: 10px; }
 
         .container {
             max-width: 880px;
@@ -55,8 +55,8 @@
         .loader-circle {
             width: 48px;
             height: 48px;
-            border: 3px solid rgba(255, 59, 109, 0.2);
-            border-top: 3px solid #FF3B6D;
+            border: 3px solid rgba(255, 105, 180, 0.2);
+            border-top: 3px solid #FF69B4;
             border-radius: 50%;
             animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
             margin: 0 auto 1rem;
@@ -64,7 +64,7 @@
         .loader-text {
             font-weight: 600;
             letter-spacing: 2px;
-            background: linear-gradient(135deg, #FF3B6D, #FF8E53);
+            background: linear-gradient(135deg, #FF69B4, #FFB6C1);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -80,15 +80,19 @@
             height: 128px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #FF3B6D;
-            box-shadow: 0 0 30px rgba(255, 59, 109, 0.3);
+            border: 3px solid #FF69B4;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             margin-bottom: 1.2rem;
+        }
+        .avatar:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(255, 105, 180, 0.5);
         }
         h1 {
             font-size: 2.8rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #FFFFFF, #FF8E53);
+            background: linear-gradient(135deg, #FFFFFF, #FFB6C1);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -112,7 +116,7 @@
             display: inline-block;
             width: 2px;
             height: 1.2em;
-            background-color: #FF8E53;
+            background-color: #FF69B4;
             animation: blink 1s step-end infinite;
             margin-left: 2px;
             vertical-align: middle;
@@ -128,7 +132,7 @@
         .social-card {
             background: rgba(18, 21, 32, 0.6);
             backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 59, 109, 0.2);
+            border: 1px solid rgba(255, 105, 180, 0.2);
             border-radius: 1rem;
             padding: 0.8rem 0.5rem;
             display: flex;
@@ -151,10 +155,10 @@
             z-index: 1;
         }
         .social-card:hover {
-            background: #FF3B6D;
-            border-color: #FF3B6D;
+            background: #FF69B4;
+            border-color: #FF69B4;
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 59, 109, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
             color: white;
         }
         .social-card:hover i { transform: scale(1.1); }
@@ -189,7 +193,7 @@
         .music-widget {
             background: rgba(12, 15, 24, 0.8);
             border-radius: 1.5rem;
-            border: 1px solid rgba(255, 59, 109, 0.4);
+            border: 1px solid rgba(255, 105, 180, 0.4);
             padding: 1.5rem;
             margin-bottom: 2rem;
             transition: all 0.2s;
@@ -208,12 +212,12 @@
             gap: 0.5rem;
         }
         .status-badge {
-            background: rgba(255, 59, 109, 0.2);
+            background: rgba(255, 105, 180, 0.2);
             padding: 0.2rem 0.8rem;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
-            border: 1px solid #FF3B6D;
+            border: 1px solid #FF69B4;
         }
         .track-row {
             display: flex;
@@ -242,7 +246,7 @@
         .last-play-date { font-size: 0.7rem; color: #55587A; margin-top: 4px; }
         .track-controls { display: flex; gap: 0.6rem; }
         .ctrl-btn {
-            background: rgba(255, 59, 109, 0.2);
+            background: rgba(255, 105, 180, 0.2);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -254,7 +258,7 @@
             color: white;
         }
         .ctrl-btn:hover {
-            background: #FF3B6D;
+            background: #FF69B4;
             transform: scale(1.05);
         }
         .visualizer {
@@ -268,7 +272,7 @@
         }
         .viz-bar {
             flex: 1;
-            background: linear-gradient(to top, #FF3B6D, #FF8E53);
+            background: linear-gradient(to top, #FF69B4, #FFB6C1);
             border-radius: 4px 4px 0 0;
             height: 5px;
             min-height: 5px;
@@ -325,7 +329,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: #FF8E53;
+            color: #FFB6C1;
         }
         .tag-group {
             display: flex;
@@ -334,15 +338,15 @@
             margin-top: 0.8rem;
         }
         .tag {
-            background: rgba(255, 59, 109, 0.12);
+            background: rgba(255, 105, 180, 0.12);
             padding: 0.2rem 0.8rem;
             border-radius: 20px;
             font-size: 0.8rem;
-            border: 1px solid rgba(255, 59, 109, 0.3);
+            border: 1px solid rgba(255, 105, 180, 0.3);
         }
         .project-item {
             margin-bottom: 1.2rem;
-            border-left: 3px solid #FF3B6D;
+            border-left: 3px solid #FF69B4;
             padding-left: 1rem;
         }
         .project-item a {
@@ -351,7 +355,7 @@
             font-weight: 700;
             font-size: 1.1rem;
         }
-        .project-item a:hover { color: #FF8E53; }
+        .project-item a:hover { color: #FFB6C1; }
         .footer-quote {
             margin-top: 3rem;
             text-align: center;
@@ -360,10 +364,92 @@
             border-top: 1px dashed #2A2E45;
             padding-top: 1.8rem;
         }
+
+        /* донаты */
+        .donation-card {
+            background: rgba(12, 15, 24, 0.8);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 105, 180, 0.4);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .donation-item {
+            background: rgba(18, 21, 32, 0.6);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            transition: all 0.2s;
+        }
+        .donation-item:hover {
+            border-color: #FF69B4;
+            background: rgba(30, 33, 48, 0.8);
+        }
+        .donation-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #FFB6C1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .address-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .address-code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            flex: 1;
+            color: #ddd;
+        }
+        .copy-btn {
+            background: rgba(255, 105, 180, 0.2);
+            border: 1px solid #FF69B4;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: white;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .copy-btn:hover {
+            background: #FF69B4;
+            transform: translateY(-2px);
+        }
+        .copy-btn:active { transform: scale(0.96); }
+        .copy-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FF69B4;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
         @media (max-width: 640px) {
             .container { padding: 1rem 1rem 2rem; }
             h1 { font-size: 2.2rem; }
             .links-grid { grid-template-columns: 1fr 1fr; }
+            .address-code { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -378,7 +464,7 @@
 
 <div class="container">
     <header>
-        <img src="./assets/images/avatar.jpg" alt="A9FM" class="avatar">
+        <img src="./assets/images/avatar.png" alt="A9FM" class="avatar">
         <h1>A9FM</h1>
         <div class="typewriter">
             <span class="typewriter-text" id="dynamicText"></span>
@@ -401,7 +487,7 @@
 
     <div class="music-widget" id="musicWidget">
         <div class="widget-header">
-            <div class="widget-title"><i class="fab fa-lastfm" style="color:#FF3B6D;"></i> Сейчас слушаю</div>
+            <div class="widget-title"><i class="fab fa-lastfm" style="color:#FF69B4;"></i> Сейчас слушаю</div>
             <div class="status-badge" id="playerStatus">Синхронизация...</div>
         </div>
         <div id="trackContainer" style="position: relative; min-height: 130px;">
@@ -467,15 +553,25 @@
         <div class="project-item"><a href="./roblox_offline/index.html"><i class="fas fa-gamepad"></i> Roblox Offline</a> — Антискам движение в сфере Roblox.</div>
     </div>
 
-    <div class="info-card">
-        <h3><i class="fas fa-heart" style="color:#FF3B6D;"></i> Поддержать денюшкой</h3>
-        <div style="margin-top: 1rem;">
-            <div style="margin-bottom: 10px;">
-                <strong>TON:</strong> <code style="background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 8px;">UQCVK8k5aPaMoIgLiFXGB3l8lJUAPMWqkL4J4DSSs3fuywGq</code>
+    <div class="donation-card">
+        <h3><i class="fas fa-heart" style="color:#FF69B4;"></i> Поддержать донатом</h3>
+        <br>
+        <div class="donation-item">
+            <div class="donation-label"><i class="fas fa-coins"></i> TON</div>
+            <div class="address-container">
+                <code class="address-code" id="tonAddress">UQCVK8k5aPaMoIgLiFXGB3l8lJUAPMWqkL4J4DSSs3fuywGq</code>
+                <button class="copy-btn" data-copy="tonAddress"><i class="fas fa-copy"></i> Копировать</button>
             </div>
-            <div style="margin-bottom: 10px;">
-                <strong>XMR / СБП:</strong> по запросу в Telegram
+        </div>
+        <div class="donation-item">
+            <div class="donation-label"><i class="fas fa-lock"></i> XMR / СБП</div>
+            <div class="address-container">
+                <code class="address-code">по запросу в Telegram</code>
+                <button class="copy-btn" data-copy-tg><i class="fab fa-telegram"></i> Написать</button>
             </div>
+        </div>
+        <div style="font-size: 0.75rem; color: #6C6F8C; text-align: center; margin-top: 0.5rem;">
+            <i class="fas fa-shield-alt"></i> Любая сумма важна ❤️
         </div>
     </div>
 
@@ -483,6 +579,8 @@
         "Неблагодарность убивает энтузиазм... Навсегда!"
     </div>
 </div>
+
+<div id="copyToast" class="copy-toast">✅ Адрес скопирован!</div>
 
 <script>
     // ripple-эффект для ссылок
@@ -504,7 +602,30 @@
         });
     });
 
-    // Last.fm
+    // --- копирование адресов ---
+    function showCopyToast() {
+        const toast = document.getElementById('copyToast');
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 1500);
+    }
+
+    document.querySelectorAll('.copy-btn[data-copy]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const addrId = btn.getAttribute('data-copy');
+            const addrElem = document.getElementById(addrId);
+            if (addrElem) {
+                navigator.clipboard.writeText(addrElem.innerText.trim());
+                showCopyToast();
+            }
+        });
+    });
+    document.querySelectorAll('.copy-btn[data-copy-tg]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            window.open('tg://resolve?domain=a9_fm', '_blank');
+        });
+    });
+
+    // Last.fm (полностью идентично твоему, только поменял акцент на розовый)
     const LASTFM_API_KEY = '460cda35be2fbf4f28e8ea7a38580730';
     const LASTFM_USER = 'a9fmTop';
     const PROXY_LIST = [
@@ -642,7 +763,7 @@
             playPauseIcon.className = 'fas fa-pause';
             if (currentTrackData && currentTrackData.nowplaying) playerStatusSpan.innerText = 'Сейчас слушаю';
             else if (previousTrackData) playerStatusSpan.innerText = 'Пауза (последний трек)';
-            playerStatusSpan.style.background = 'rgba(255,59,109,0.4)';
+            playerStatusSpan.style.background = 'rgba(255,105,180,0.4)';
             startVisualizerAnim();
         } else {
             playPauseIcon.className = 'fas fa-play';
@@ -692,7 +813,7 @@
                     previousTrackData = null;
                     updateTrackDisplayIfChanged(true, currentTrackData, true, null);
                     playerStatusSpan.innerText = 'Сейчас слушаю';
-                    playerStatusSpan.style.background = 'rgba(255,59,109,0.4)';
+                    playerStatusSpan.style.background = 'rgba(255,105,180,0.4)';
                     isPlayingFake = true;
                     playPauseIcon.className = 'fas fa-pause';
                     startVisualizerAnim();
