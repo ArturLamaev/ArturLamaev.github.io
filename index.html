@@ -525,7 +525,17 @@
     <div class="info-card">
         <h3><i class="fas fa-code"></i> Чё я знаю</h3>
         <div class="tag-group">
-            <span class="tag">Python</span><span class="tag">Bash</span><span class="tag">HTML/CSS</span>
+            <span class="tag">Python</span>
+            <span class="tag">Bash</span>
+            <span class="tag">HTML/CSS</span>
+            <span class="tag">Git</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Linux</span>
+            <span class="tag">Docker</span>
+            <span class="tag">Pyrogram</span>
+            <span class="tag">Kurigram</span>
+            <span class="tag">Aiogram</span>
+            <span class="tag">Telebot</span>
         </div>
     </div>
 
@@ -564,10 +574,11 @@
             </div>
         </div>
         <div class="donation-item">
-            <div class="donation-label"><i class="fas fa-lock"></i> XMR / СБП</div>
+            <div class="donation-label"><i class="fas fa-rocket" style="color:#FF69B4;"></i> XRocket</div>
             <div class="address-container">
-                <code class="address-code">по запросу в Telegram</code>
-                <button class="copy-btn" data-copy-tg><i class="fab fa-telegram"></i> Написать</button>
+                <button class="copy-btn" onclick="window.open('https://telegram.me/xrocket?start=inv_oRD776nuy72mQPC', '_blank');" style="width:100%; justify-content:center;">
+                    <i class="fas fa-external-link-alt"></i> Перейти в XRocket
+                </button>
             </div>
         </div>
         <div style="font-size: 0.75rem; color: #6C6F8C; text-align: center; margin-top: 0.5rem;">
@@ -575,26 +586,26 @@
         </div>
     </div>
 
-<div class="info-card" style="border: 2px solid rgba(255, 105, 180, 0.15); background: rgba(12, 10, 18, 0.7);">
-    <h3 style="display: flex; align-items: center; gap: 10px;">
-        <i class="fas fa-microchip" style="color: #FF69B4;"></i>
-        <span style="color: #A0A3C0; font-weight: 400; font-size: 0.85rem;">in memoriam</span>
-    </h3>
-    <div style="display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 0.2rem;">
-        <div style="font-size: 2.5rem; line-height: 1; opacity: 0.6;">🖥️</div>
-        <div>
-            <div style="font-weight: 700; font-size: 1.2rem; color: #E2E4F0;">Raspberry Pi 4B 8GB</div>
-            <div style="font-size: 0.85rem; color: #7A7D9E; margin-top: 2px;">
-                <span style="color: #FF69B4;">●</span> 02.06.2026
-            </div>
-            <div style="font-size: 0.8rem; color: #55587A; margin-top: 4px; max-width: 420px;">
-                Погибла смертью храбрых — приняла 5В на 3.3В линию. 
-                Сгорела, но не сдалась. Спи спокойно, малинка.
+    <div class="info-card" style="border: 2px solid rgba(255, 105, 180, 0.15); background: rgba(12, 10, 18, 0.7);">
+        <h3 style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-microchip" style="color: #FF69B4;"></i>
+            <span style="color: #A0A3C0; font-weight: 400; font-size: 0.85rem;">in memoriam</span>
+        </h3>
+        <div style="display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 0.2rem;">
+            <div style="font-size: 2.5rem; line-height: 1; opacity: 0.6;">🖥️</div>
+            <div>
+                <div style="font-weight: 700; font-size: 1.2rem; color: #E2E4F0;">Raspberry Pi 4B 8GB</div>
+                <div style="font-size: 0.85rem; color: #7A7D9E; margin-top: 2px;">
+                    <span style="color: #FF69B4;">●</span> 02.06.2026
+                </div>
+                <div style="font-size: 0.8rem; color: #55587A; margin-top: 4px; max-width: 420px;">
+                    Погибла смертью храбрых — приняла 5В на 3.3В линию.
+                    Сгорела, но не сдалась. Спи спокойно, малинка.
+                </div>
             </div>
         </div>
     </div>
-</div>
-    
+
     <div class="footer-quote">
         "Неблагодарность убивает энтузиазм... Навсегда!"
     </div>
@@ -645,7 +656,7 @@
         });
     });
 
-    // Last.fm (полностью идентично твоему, только поменял акцент на розовый)
+    // Last.fm
     const LASTFM_API_KEY = '460cda35be2fbf4f28e8ea7a38580730';
     const LASTFM_USER = 'a9fmTop';
     const PROXY_LIST = [
@@ -860,20 +871,45 @@
         updateTime();
     }
 
+    // --- Починенная бесконечная печатная машинка ---
     const phrases = ["Что-то между прогером и скрипт-кидди", "Владелец RT/RO", "ANTI-SCAM", "Python Developer", "coder", "vzlom jopi", "Pashalko", "Femboy", "ЭтоНеЯ!", ""];
     let idx = 0, charIdx = 0, isDeletingFlag = false;
     const dynSpan = document.getElementById('dynamicText');
+    let timeoutId = null;
+
     function typeWriter() {
         const full = phrases[idx];
-        if (isDeletingFlag) { dynSpan.innerText = full.substring(0, charIdx-1); charIdx--; }
-        else { dynSpan.innerText = full.substring(0, charIdx+1); charIdx++; }
-        if (!isDeletingFlag && charIdx === full.length) { isDeletingFlag = true; setTimeout(typeWriter, 1800); return; }
-        if (isDeletingFlag && charIdx === 0) { isDeletingFlag = false; idx = (idx+1) % phrases.length; setTimeout(typeWriter, 400); return; }
-        setTimeout(typeWriter, isDeletingFlag ? 50 : 110);
+
+        if (isDeletingFlag) {
+            dynSpan.innerText = full.substring(0, charIdx - 1);
+            charIdx--;
+        } else {
+            dynSpan.innerText = full.substring(0, charIdx + 1);
+            charIdx++;
+        }
+
+        if (!isDeletingFlag && charIdx === full.length) {
+            isDeletingFlag = true;
+            timeoutId = setTimeout(typeWriter, 1800);
+            return;
+        }
+
+        if (isDeletingFlag && charIdx === 0) {
+            isDeletingFlag = false;
+            idx = (idx + 1) % phrases.length;
+            timeoutId = setTimeout(typeWriter, 400);
+            return;
+        }
+
+        timeoutId = setTimeout(typeWriter, isDeletingFlag ? 50 : 110);
     }
 
     window.addEventListener('load', () => {
-        setTimeout(() => { const loader = document.getElementById('loader'); loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 400); }, 900);
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 400);
+        }, 900);
         buildVisualizer();
         getCurrentTrack();
         setInterval(() => getCurrentTrack(false), 35000);
