@@ -344,18 +344,94 @@
             font-size: 0.8rem;
             border: 1px solid rgba(255, 105, 180, 0.3);
         }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-top: 0.9rem;
+        }
         .project-item {
-            margin-bottom: 1.2rem;
-            border-left: 3px solid #FF69B4;
-            padding-left: 1rem;
-        }
-        .project-item a {
-            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.9rem;
+            background: rgba(12, 15, 24, 0.6);
+            border: 1px solid rgba(255, 105, 180, 0.18);
+            border-radius: 1rem;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
+            color: inherit;
+            transition: border-color 0.2s, background 0.2s, transform 0.2s;
         }
-        .project-item a:hover { color: #FFB6C1; }
+        .project-item:hover {
+            border-color: #FF69B4;
+            background: rgba(30, 33, 48, 0.75);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 105, 180, 0.12);
+        }
+        .projects-grid > .project-item:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+        }
+        .project-icon {
+            flex: 0 0 42px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255, 105, 180, 0.12);
+            border: 1px solid rgba(255, 105, 180, 0.3);
+            color: #FFB6C1;
+            font-size: 1.05rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .project-item:hover .project-icon {
+            background: #FF69B4;
+            color: #0B0D15;
+        }
+        .project-body { min-width: 0; }
+        .project-name {
+            display: block;
+            font-weight: 700;
+            font-size: 1rem;
+            line-height: 1.25;
+            color: white;
+        }
+        .project-desc {
+            display: block;
+            font-size: 0.75rem;
+            line-height: 1.35;
+            color: #9A9DB8;
+            margin-top: 2px;
+        }
+        .project-item:hover .project-name { color: #FFB6C1; }
+        .projects-more {
+            margin-top: 0.9rem;
+            text-align: right;
+            font-size: 0.8rem;
+        }
+        .projects-more a {
+            color: #FFB6C1;
+            text-decoration: none;
+        }
+        .projects-more a:hover { color: white; }
+        .now-line {
+            margin-top: 1rem;
+            padding-top: 0.9rem;
+            border-top: 1px dashed #2A2E45;
+            font-size: 0.85rem;
+            color: #9A9DB8;
+        }
+        .now-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ADE80;
+            margin-right: 7px;
+            box-shadow: 0 0 8px rgba(74, 222, 128, 0.7);
+            vertical-align: middle;
+        }
         .footer-quote {
             margin-top: 3rem;
             text-align: center;
@@ -449,6 +525,7 @@
             .container { padding: 1rem 1rem 2rem; }
             h1 { font-size: 2.2rem; }
             .links-grid { grid-template-columns: 1fr 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
             .address-code { font-size: 0.7rem; }
         }
     </style>
@@ -480,7 +557,7 @@
         <a href="https://github.com/ArturLamaev" class="social-card"><i class="fab fa-github"></i> GitHub</a>
         <a href="https://www.youtube.com/channel/UCl5P2stynkIvV8bsUdaRB6A" class="social-card"><i class="fab fa-youtube"></i> YouTube</a>
         <a href="https://last.fm/user/a9fmTop" class="social-card"><i class="fab fa-lastfm"></i> Last.fm</a>
-        <a href="https://anixartapp.com/profile/1876789" class="social-card"><i class="fas fa-film"></i> Anixart</a>
+        <a href="https://anixart-app.com/profile/1876789" class="social-card"><i class="fas fa-film"></i> Anixart</a>
         <a href="https://steamcommunity.com/id/a9fm/" class="social-card"><i class="fab fa-steam"></i> Steam</a>
     </div>
 
@@ -518,48 +595,50 @@
 
     <div class="info-card">
         <h3><i class="fas fa-user-astronaut"></i> Обо мне</h3>
-        <p>Школьник, скрипт-кидди, манякодер. <br> Хрен знает что ещё написать.</p>
-    </div>
-
-    <div class="info-card">
-        <h3><i class="fas fa-code"></i> Чё я знаю</h3>
-        <div class="tag-group">
-            <span class="tag">Python</span>
-            <span class="tag">Bash</span>
-            <span class="tag">HTML/CSS</span>
-            <span class="tag">Git</span>
-            <span class="tag">SQL</span>
-            <span class="tag">Linux</span>
-            <span class="tag">Docker</span>
-            <span class="tag">Pyrogram</span>
-            <span class="tag">Kurigram</span>
-            <span class="tag">Aiogram</span>
-            <span class="tag">Telebot</span>
-        </div>
-    </div>
-
-    <div class="info-card">
-        <h3><i class="fas fa-laptop-code"></i> Работал с</h3>
-        <div class="tag-group">
-            <span class="tag">Debian</span><span class="tag">Ubuntu</span><span class="tag">Manjaro</span><span class="tag">LUbuntu</span>
-            <span class="tag">Linux Mint</span><span class="tag">Raspberry pi OS</span><span class="tag">Armbian</span>
-        </div>
-    </div>
-
-    <div class="info-card">
-        <h3><i class="fas fa-vector-square"></i> Основные направления</h3>
-        <div class="tag-group">
-            <span class="tag">Программирование</span><span class="tag">P2P Обмены</span><span class="tag">Майнинг</span>
-            <span class="tag">Изучение дистрибутивов Linux</span><span class="tag">Антискам движение RO/RT</span>
-            <span class="tag">Настройка домашнего сервера на Raspberry PI</span><span class="tag">Ламерство [пентестинг]</span>
-        </div>
+        <p>Школьник, Скрипт-Кидди, Вайбкодер, Диононер. Пишите в директ</p>
+        <p class="now-line"><span class="now-dot"></span>Сейчас: страдаю хуйней.</p>
     </div>
 
     <div class="info-card">
         <h3><i class="fas fa-folder-open"></i> Мои проекты</h3>
-        <div class="project-item"><a href="https://github.com/FoxUserbot/FoxUserbot"><i class="fab fa-github"></i> FoxUserbot</a> — Telegram Userbot на Kurigram/Pyrogram.</div>
-        <div class="project-item"><a href="https://github.com/a9fm/MSWT"><i class="fab fa-github"></i> MSWT</a> — Manage Server With Telegram.</div>
-        <div class="project-item"><a href="./roblox_offline/index.html"><i class="fas fa-gamepad"></i> Roblox Offline</a> — Антискам движение в сфере Roblox.</div>
+        <div class="projects-grid">
+            <a class="project-item" href="https://github.com/FoxUserbot/FoxUserbot">
+                <span class="project-icon"><i class="fab fa-github"></i></span>
+                <span class="project-body">
+                    <span class="project-name">FoxUserbot</span>
+                    <span class="project-desc">Telegram-юзербот на Kurigram/Pyrogram. Простая установка.</span>
+                </span>
+            </a>
+            <a class="project-item" href="https://github.com/a9fm/MSWT">
+                <span class="project-icon"><i class="fab fa-github"></i></span>
+                <span class="project-body">
+                    <span class="project-name">MSWT</span>
+                    <span class="project-desc">Управление сервером из Telegram: команды и мониторинг.</span>
+                </span>
+            </a>
+            <a class="project-item" href="./roblox_offline/index.html">
+                <span class="project-icon"><i class="fas fa-gamepad"></i></span>
+                <span class="project-body">
+                    <span class="project-name">Roblox Offline</span>
+                    <span class="project-desc">Антискам-база: санкционный список, правила, апелляции и сетка чатов.</span>
+                </span>
+            </a>
+            <a class="project-item" href="https://github.com/arturlamaev/wdtt-server">
+                <span class="project-icon"><i class="fab fa-github"></i></span>
+                <span class="project-body">
+                    <span class="project-name">WDTT-SERVER</span>
+                    <span class="project-desc">Форк VPN-панели qWDTT: лимиты 10 → 10 000 ключей и устройств, установщик с nginx и сертификатами.</span>
+                </span>
+            </a>
+            <a class="project-item" href="https://git.a9fm.best/">
+                <span class="project-icon"><i class="fab fa-git-alt"></i></span>
+                <span class="project-body">
+                    <span class="project-name">Forgejo</span>
+                    <span class="project-desc">Свой Git-сервер на git.a9fm.best: репозитории и HTTPS.</span>
+                </span>
+            </a>
+        </div>
+        <div class="projects-more"><a href="https://git.a9fm.best/a9fm">Все репозитории <i class="fas fa-arrow-right"></i></a></div>
     </div>
 
     <div class="donation-card">
@@ -870,37 +949,49 @@
         updateTime();
     }
 
-    // --- Починенная бесконечная печатная машинка ---
-    const phrases = ["Что-то между прогером и скрипт-кидди", "Владелец RT/RO", "ANTI-SCAM", "Python Developer", "coder", "vzlom jopi", "Pashalko", "Femboy", "ЭтоНеЯ!", ""];
+    // --- Бесконечная печатная машинка ---
+    const phrases = ["Что-то между прогером и скрипт-кидди", "Владелец RT/RO", "ANTI-SCAM", "Python Developer", "coder", "vzlom jopi", "Pashalko", "Femboy", "ЭтоНеЯ!"];
     let idx = 0, charIdx = 0, isDeletingFlag = false;
     const dynSpan = document.getElementById('dynamicText');
     let timeoutId = null;
 
     function typeWriter() {
-        const full = phrases[idx];
+        const full = phrases[idx] || "";
 
-        if (isDeletingFlag) {
-            dynSpan.innerText = full.substring(0, charIdx - 1);
-            charIdx--;
-        } else {
-            dynSpan.innerText = full.substring(0, charIdx + 1);
-            charIdx++;
+        // пропускаем пустые фразы, чтобы не застрять на них
+        if (!full.length) {
+            idx = (idx + 1) % phrases.length;
+            charIdx = 0;
+            isDeletingFlag = false;
+            timeoutId = setTimeout(typeWriter, 400);
+            return;
         }
 
-        if (!isDeletingFlag && charIdx === full.length) {
+        if (isDeletingFlag) {
+            charIdx = Math.max(0, charIdx - 1);
+            dynSpan.textContent = full.substring(0, charIdx);
+
+            if (charIdx === 0) {
+                isDeletingFlag = false;
+                idx = (idx + 1) % phrases.length;
+                timeoutId = setTimeout(typeWriter, 400);
+                return;
+            }
+
+            timeoutId = setTimeout(typeWriter, 50);
+            return;
+        }
+
+        charIdx = Math.min(full.length, charIdx + 1);
+        dynSpan.textContent = full.substring(0, charIdx);
+
+        if (charIdx === full.length) {
             isDeletingFlag = true;
             timeoutId = setTimeout(typeWriter, 1800);
             return;
         }
 
-        if (isDeletingFlag && charIdx === 0) {
-            isDeletingFlag = false;
-            idx = (idx + 1) % phrases.length;
-            timeoutId = setTimeout(typeWriter, 400);
-            return;
-        }
-
-        timeoutId = setTimeout(typeWriter, isDeletingFlag ? 50 : 110);
+        timeoutId = setTimeout(typeWriter, 110);
     }
 
     window.addEventListener('load', () => {
